@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./volumes/mongo:/etc/mongo
+    enviroment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: test
+  app:
+    build:
+      context: .
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
+    command: nodemon server.js
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app/
