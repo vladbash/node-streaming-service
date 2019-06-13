@@ -5,7 +5,7 @@ services:
     restart: always
     volumes:
       - ./volumes/mongo:/etc/mongo
-    enviroment:
+    environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: test
   app:
