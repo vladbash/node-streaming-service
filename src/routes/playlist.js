@@ -2,9 +2,7 @@ const {
     Track
 } = require('../models');
 const Router = require('koa-router');
-const {
-    drop
-} = require('ramda');
+const io = require('../io');
 
 const playlist = new Router();
 
@@ -39,6 +37,9 @@ playlist.post('/track/like', async ctx => {
     if (track) {
         track.likes++;
         await track.save();
+        if (track.isPlaying) {
+            io.broadcast('trackUpdate', track);
+        }
         ctx.response.body = {
             status: 200
         };

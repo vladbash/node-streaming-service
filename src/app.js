@@ -1,7 +1,9 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const swagger = require('koa2-swagger-ui');
+
 const db = require('./db');
+const io = require('./io');
 
 db.connect();
 
@@ -15,6 +17,7 @@ app.use(swagger({
         url: 'http://localhost:3000/swagger.json',
     },
 }));
+io.attach(app);
 app.use(routes.routes());
 
 module.exports = app;
