@@ -1,5 +1,5 @@
-const Song = require('./song');
+const Track = require('./track');
 
 module.exports = {
-    Song
+    Track
 };

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db:
+  mongo:
     image: mongo
     restart: always
     volumes:
@@ -8,14 +8,28 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: test
+    ports:
+      - 27017:27017
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8888:8081
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: test
   app:
     build:
       context: .
     restart: always
     depends_on:
-      - db
+      - mongo
     links:
-      - db
+      - mongo
     command: nodemon server.js
     ports:
       - 3000:3000
