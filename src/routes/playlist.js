@@ -15,6 +15,14 @@ playlist.get('/playlist', async ctx => {
     ctx.response.body = playlist;
 });
 
+playlist.get('/track/current', async ctx => {
+    const track = await Track.findOne({ isPlaying: true }).select('-fileUrl');
+    if (!track) {
+        ctx.response.status = 404;
+    }
+    ctx.response.body = track ? track : { message: 'There aren\'t playing tracks for now' };
+});
+
 playlist.post('/track', async ctx => {
     const {
         name,

@@ -54,6 +54,28 @@
                     }
                 }
             }
+        },
+        "/api/track/current": {
+            "get": {
+                "tag": ["track"],
+                "summary": "Metadata for current playing track",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     }
 }
