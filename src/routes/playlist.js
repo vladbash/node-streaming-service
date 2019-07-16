@@ -46,7 +46,7 @@ playlist.post('/track/like', async ctx => {
         track.likes++;
         await track.save();
         if (track.isPlaying) {
-            io.broadcast('trackUpdate', track);
+            io.broadcast('trackUpdated', track);
         }
         ctx.response.body = {
             status: 200
@@ -80,6 +80,18 @@ playlist.post('/track/comment', async ctx => {
             error: "No such track"
         };
     }
+});
+
+playlist.get('/track/play', async ctx => {
+    await Track.findOneAndUpdate({ isPlaying: true }, { $set: { likes: 0, isPlaying: false } });
+    const track = await Track.findOne().sort({
+        likes: -1,
+        updatedAt: 1
+    });
+    track.isPlaying = true;
+    await track.save();
+    io.broadcast('currentTrackUpdated', track);
+    ctx.response.body = track;
 });
 
 module.exports = playlist;
