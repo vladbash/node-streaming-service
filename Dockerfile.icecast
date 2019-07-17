@@ -1,0 +1,5 @@
+FROM infiniteproject/icecast
+
+COPY icecast.xml /etc/icecast.xml
+
+RUN cat /etc/icecast.xml

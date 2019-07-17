@@ -3,6 +3,8 @@ services:
   mongo:
     image: mongo
     restart: always
+    networks:
+      - local
     volumes:
       - ./volumes/mongo:/etc/mongo
     environment:
@@ -13,6 +15,8 @@ services:
   mongo-express:
     image: mongo-express
     restart: always
+    networks:
+      - local
     ports:
       - 8888:8081
     depends_on:
@@ -22,16 +26,57 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: test
-  app:
+  api:
     build:
-      context: .
+      context: ./api
     restart: always
     depends_on:
       - mongo
+    networks:
+      - local
     links:
       - mongo
     command: nodemon server.js
     ports:
       - 3000:3000
     volumes:
-      - ./:/app/
+      - ./api/:/app/
+  streaming:
+    build:
+      context: ./streaming
+    restart: always
+    networks:
+      - local
+    depends_on:
+      - api
+      - icecast
+    ports:
+      - 8089:8000
+    command: nodemon index.js
+    volumes:
+      - ./streaming:/app/
+      - ./tracks:/app/tracks
+  icecast:
+    image: infiniteproject/icecast
+    build:
+      context: .
+      dockerfile: Dockerfile.icecast
+    ports:
+      - 8002:8000
+    networks:
+      - local
+    volumes:
+      - ./volumes/logs:/var/log/icecast
+    environment:
+      ICECAST_SOURCE_PASSWORD: changeme
+      ICECAST_ADMIN_PASSWORD: changeme
+      ICECAST_PASSWORD: changeme
+      ICECAST_RELAY_PASSWORD: changeme
+      ICECAST_ADMIN_USERNAME: admin
+      ICECAST_ADMIN_EMAIL: admin@admin.com
+      ICECAST_HOSTNAME: localhost
+      ICECAST_LOCATION: Moon
+      ICECAST_MAX_CLIENTS: 40
+      ICECAST_MAX_SOURCES: 10
+networks:
+  local:

@@ -1,0 +1,31 @@
+{
+  "name": "streaming-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladb95/node-streaming-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladb95/node-streaming-service/issues"
+  },
+  "homepage": "https://github.com/vladb95/node-streaming-service#readme",
+  "dependencies": {
+    "config": "^3.1.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-socket-2": "^1.1.0",
+    "koa-static": "^5.0.0",
+    "koa2-swagger-ui": "^2.14.2",
+    "mongoose": "^5.6.4",
+    "ramda": "^0.26.1",
+    "socket.io": "^2.2.0"
+  }
+}

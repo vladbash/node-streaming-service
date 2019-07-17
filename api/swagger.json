@@ -1,0 +1,81 @@
+{
+    "swagger": "2.0",
+    "paths": {
+        "/api/playlist": {
+            "get": {
+                "tags": ["playlist"],
+                "summary": "Get tracks list with sorting by like field",
+                "description": "",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/like": {
+            "post": {
+                "tags": ["track"],
+                "summary": "For updating like counter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "body",
+                        "description": "Track id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/track/current": {
+            "get": {
+                "tag": ["track"],
+                "summary": "Metadata for current playing track",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
