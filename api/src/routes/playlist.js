@@ -31,12 +31,16 @@ playlist.post('/track', async ctx => {
     const {
         name,
         author,
-        cover
+        cover,
+        file,
+        loadedBy = 'Admin Admin'
     } = ctx.request.body;
     const track = await new Track({
         name,
         author,
-        cover
+        cover,
+        file,
+        loadedBy
     }).save();
     ctx.response.body = track;
 });
