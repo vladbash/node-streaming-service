@@ -23,19 +23,20 @@ try {
     playSong();
 } catch (err) {
     console.warn(err);
+    process.exit(1);
 }
 
 function playSong() {
     axios.default.get('http://api:3000/api/track/play').then(data => {
         const writeStream = new Writable({
-			write(data, encoding, cb) {
-				ls.send(data, data.length)
-				const delay = ls.getDelay()
-				setTimeout(() => {
+            write(data, encoding, cb) {
+                ls.send(data, data.length)
+                const delay = ls.getDelay()
+                setTimeout(() => {
                     cb();
                 }, delay)
-			},
-		});
+            },
+        });
         const fileStream = new fs.createReadStream('./tracks/' + data.data.file);
         fileStream.pipe(writeStream);
 
@@ -44,3 +45,11 @@ function playSong() {
         });
     });
 }
+
+process.on('uncaughtException', () => {
+    process.exit(1);
+});
+
+process.on('unhandledRejection', () => {
+    process.exit(1);
+});

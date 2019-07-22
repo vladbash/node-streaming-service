@@ -16,11 +16,15 @@ playlist.get('/playlist', async ctx => {
 });
 
 playlist.get('/track/current', async ctx => {
-    const track = await Track.findOne({ isPlaying: true }).select('-fileUrl');
+    const track = await Track.findOne({
+        isPlaying: true
+    }).select('-fileUrl');
     if (!track) {
         ctx.response.status = 404;
     }
-    ctx.response.body = track ? track : { message: 'There aren\'t playing tracks for now' };
+    ctx.response.body = track ? track : {
+        message: 'There aren\'t playing tracks for now'
+    };
 });
 
 playlist.post('/track', async ctx => {
@@ -83,13 +87,22 @@ playlist.post('/track/comment', async ctx => {
 });
 
 playlist.get('/track/play', async ctx => {
-    const previousTrack = await Track.findOneAndUpdate({ isPlaying: true }, { $set: { likes: 0, isPlaying: false } });
+    const previousTrack = await Track.findOneAndUpdate({
+        isPlaying: true
+    }, {
+        $set: {
+            likes: 0,
+            isPlaying: false
+        }
+    });
     const track = await Track.findOne().sort({
         likes: -1,
         updatedAt: 1
     });
-    track.isPlaying = true;
-    await track.save();
+    if (track) {
+        track.isPlaying = true;
+        await track.save();
+    }
     io.broadcast('currentTrackUpdated', track);
     io.broadcast('trackAdded', previousTrack);
     ctx.response.body = track;
