@@ -11,7 +11,7 @@ const Track = mongoose.model('Track', new Schema({
         type: SchemaTypes.Number,
         default: 0
     },
-    fileUrl: SchemaTypes.String,
+    file: SchemaTypes.String,
     cover: SchemaTypes.String,
     loadedBy: SchemaTypes.String,
     isPlaying: {
