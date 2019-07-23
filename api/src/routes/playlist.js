@@ -7,12 +7,19 @@ const io = require('../io');
 const playlist = new Router();
 
 playlist.get('/playlist', async ctx => {
-    const playlist = await Track.find({
-        isPlaying: false
-    }).sort({
-        likes: -1
-    }).select('-isPlaying -fileUrl');
-    ctx.response.body = playlist;
+    try {
+        const playlist = await Track.find({
+            isPlaying: false
+        }).sort({
+            likes: -1
+        }).select('-isPlaying -fileUrl');
+        ctx.response.body = playlist;
+    } catch (e) {
+        ctx.response.body = {
+            error: 'Error',
+            payload: e
+        };
+    }
 });
 
 playlist.get('/track/current', async ctx => {

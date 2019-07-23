@@ -14,7 +14,7 @@ app.use(bodyParser());
 app.use(swagger({
     routePrefix: '/swagger',
     swaggerOptions: {
-        url: 'http://localhost:3000/swagger.json',
+        url: 'http://192.168.9.101:3000/swagger.json',
     },
 }));
 io.attach(app);
