@@ -28,6 +28,7 @@ try {
 
 function playSong() {
     axios.default.get('http://api:3000/api/track/play').then(data => {
+        console.log(data);
         const writeStream = new Writable({
             write(data, encoding, cb) {
                 ls.send(data, data.length)
