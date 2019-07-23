@@ -12,20 +12,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: test
     ports:
       - 27017:27017
-  mongo-express:
-    image: mongo-express
-    restart: always
-    networks:
-      - local
-    ports:
-      - 8888:8081
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: test
   api:
     build:
       context: ./api
@@ -62,8 +48,6 @@ services:
       - 8002:8000
     networks:
       - local
-    volumes:
-      - ./volumes/logs:/var/log/icecast
     environment:
       ICECAST_SOURCE_PASSWORD: changeme
       ICECAST_ADMIN_PASSWORD: changeme
