@@ -27,8 +27,8 @@ try {
 }
 
 function playSong() {
-    axios.default.get('http://api:3000/api/track/play').then(data => {
-        console.log(data);
+    axios.default.get('http://api:3000/api/track/play').then(response => {
+        console.log(response.data);
         const writeStream = new Writable({
             write(data, encoding, cb) {
                 ls.send(data, data.length)
@@ -38,7 +38,7 @@ function playSong() {
                 }, delay)
             },
         });
-        const fileStream = new fs.createReadStream('./tracks/' + data.data.file);
+        const fileStream = new fs.createReadStream('./tracks/' + response.data.file);
         fileStream.pipe(writeStream);
 
         writeStream.on('finish', () => {
@@ -47,10 +47,12 @@ function playSong() {
     });
 }
 
-process.on('uncaughtException', () => {
+process.on('uncaughtException', e => {
+    console.log('uncaughtException: ', e);
     process.exit(1);
 });
 
 process.on('unhandledRejection', () => {
+    console.log('uncaughtException: ', e);
     process.exit(1);
 });
